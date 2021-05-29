@@ -1,0 +1,122 @@
+Ключ
+
+<textarea rows="4" cols="35" name="text" id='key'></textarea>
+<br /><br />
+Текст:
+<textarea rows="10" cols="45" name="text" id='text'></textarea>
+<br /><br />
+
+<button onclick='changeKey()'>Проверить ключ</button>
+
+<button onclick='changeText()'>Проверить текст</button>
+<br /><br />
+<button onclick='encrypt()'>Зашифровать</button>
+<br /><br />
+Зашифрованное сообщение: <br />
+
+<textarea rows="10" cols="45" name="text" id='cipher'></textarea>
+<br /><br />
+<button onclick='decrypt()'>Расшифровать</button>
+<br /><br />
+Расшифрованное сообщение: <br />
+<textarea rows="10" cols="45" name="text" id='decrypt'></textarea>
+
+<script>
+
+
+function uniq(a) {
+   return Array.from(new Set(a));
+}
+
+
+function changeKey() {//удаляем пробелы, знаки, регистр меняем
+var key=document.getElementById('key').value;
+
+key=key.split(' ').join('');
+key=key.replace(/[^a-zа-яё0-9\s]/gi, '');
+key=key.toLowerCase();
+key=uniq(key);
+
+key=key.toString();
+key=key.replace(/[^a-zа-яё0-9\s]/gi, '');
+key+="ёйлнфцшщъэю";
+return( key);
+}
+
+
+function changeText() {//преобразуем текст 
+var text=document.getElementById('text').value;
+
+text=text.split(' ').join('');
+text=text.replace(/[^a-zа-яё0-9\s]/gi, '');
+text=text.toLowerCase();
+
+return(text);
+}
+
+
+
+function encrypt() {//кодируем
+var alphabet = 'абвгдежзиклмнопрстуфхцчшщьыэюя';
+var alphabet1 = changeKey();
+var index=0;
+var alphabetA = alphabet.split("");
+var alphabet1A = alphabet1.split("");
+
+var text=changeText();
+var key=changeKey();
+
+var textA = text.split("");
+
+
+var result='';
+
+for (var i=0; i<textA.length; i++){
+var n = textA[i];
+index=alphabetA.indexOf(n);
+var a=alphabet1A[index];
+if(typeof(a) != 'undefined'){
+result+=a;}
+
+}
+
+result=result.toString();
+
+document.getElementById('cipher').value = result;
+}
+
+
+
+function decrypt() {// декодируем
+    var message = document.getElementById('cipher').value;
+   
+
+
+var alphabet = 'абвгдежзиклмнопрстуфхцчшщьыэюя';
+var alphabet1 = changeKey();
+var index=0;
+var alphabetA = alphabet.split("");
+var alphabet1A = alphabet1.split("");
+
+
+var key=changeKey();
+
+var textA = message.split("");
+
+
+var result='';
+
+for (var i=0; i<textA.length; i++){
+var n = textA[i];
+index=alphabet1A.indexOf(n);
+
+var a=alphabetA[index];
+if(typeof(a) != 'undefined'){
+result+=a;}
+
+}
+
+result=result.toString();
+document.getElementById('decrypt').value = result;
+}
+</script>
